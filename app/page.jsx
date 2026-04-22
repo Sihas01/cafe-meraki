@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import MenuPager from "./MenuPager";
 
 const dishes = [
@@ -109,21 +112,53 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const logoSrc = `${basePath}/meraki-logo-transparent.png`;
 
 export default function Home() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isMenuOpen]);
+
   return (
     <main>
       <section className="hero" aria-label="Cafe Meraki hero">
         <div className="heroShade" />
-        <nav className="topbar" aria-label="Primary navigation">
+        <nav className={`topbar ${isMenuOpen ? "menuOpen" : ""}`} aria-label="Primary navigation">
           <a className="brand" href="#top" aria-label="Cafe Meraki home">
             <img src={logoSrc} alt="Cafe Meraki" />
           </a>
-          <div className="navlinks">
+          
+          <div className="navlinks desktopOnly">
             <a href="#menu">Menu</a>
             <a href="#chef">Chef</a>
             <a href="#guests">Guests</a>
             <a href="#visit">Visit</a>
           </div>
+
+          <button 
+            className="menuToggle" 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-expanded={isMenuOpen}
+            aria-label="Toggle navigation"
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </nav>
+
+        <div className={`mobileMenu ${isMenuOpen ? "open" : ""}`}>
+          <a href="#menu" onClick={() => setIsMenuOpen(false)}>Menu</a>
+          <a href="#chef" onClick={() => setIsMenuOpen(false)}>Chef</a>
+          <a href="#guests" onClick={() => setIsMenuOpen(false)}>Guests</a>
+          <a href="#visit" onClick={() => setIsMenuOpen(false)}>Visit</a>
+        </div>
 
         <div className="heroContent">
           <p className="eyebrow">Cafe Meraki Sri Lanka</p>
