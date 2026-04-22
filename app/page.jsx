@@ -105,7 +105,7 @@ const links = {
   linktree: "https://linktr.ee/_cafemeraki_",
 };
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "/cafe-meraki";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const logoSrc = `${basePath}/meraki-logo-transparent.png`;
 
 export default function Home() {
